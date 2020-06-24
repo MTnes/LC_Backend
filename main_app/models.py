@@ -21,7 +21,7 @@ class Session(models.Model):
         ('SOCIAL AWARENESS', 'Social Awareness'),
         ('RELATIONSHIP SKILLS', 'Relationship Skills')
     )
-    compitency = models.CharField(max_length=64, choices=PILLAR)
+    compitency = models.CharField(max_length=64, choices=PILLAR, default="SELF MANAGEMENT")
     theme = models.CharField(max_length=64,blank=True)
     name = models.CharField(max_length=128,blank=True)
     index = models.TextField(blank=True)
@@ -53,7 +53,7 @@ class Questions_Mapping(models.Model):
         ('C','C'),
         ('D','D')
     )
-    correct_answer = models.CharField(max_length=64, choices=OPTIONS)
+    correct_answer = models.CharField(max_length=64, choices=OPTIONS, default="A")
 
     def __str__(self):
         return (self.session.name + " - " + self.question)
