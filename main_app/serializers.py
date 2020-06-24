@@ -70,7 +70,7 @@ class SessionSerializer(serializers.HyperlinkedModelSerializer):
 
 class MediaContentSerializer(serializers.HyperlinkedModelSerializer):
     media_content = Base64ImageField(max_length=None, use_url=True)
-
+    
     class Meta:
         model = Media_Content
         fields = ['session','serial_number','media_content','text_content']
