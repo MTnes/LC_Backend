@@ -2,6 +2,13 @@ from django.db import models
 
 # Create your models here.
 
+class TestClass(models.Model):
+    # name = models.CharField(max_length=64, blank=True)
+    doc = models.FileField(upload_to='content_video', default='/logos/anonymous.jpg')
+
+    # def __str__(self):
+    #     return self.name
+
 class Badge(models.Model):
     badge_name = models.CharField(max_length=64, blank=False)
     image = models.ImageField(upload_to='badges',blank=False)
@@ -15,11 +22,11 @@ class Badge(models.Model):
 class Session(models.Model):
     id = models.IntegerField(blank=False,unique=True,primary_key=True)
     PILLAR = (
-        ('SELF MANAGEMENT', 'Self Management'),
-        ('SELF AWARENESS', 'Self Awareness'),
-        ('RESPONSIBLE DECISION MAKING', 'Responsible Decision Making'),
-        ('SOCIAL AWARENESS', 'Social Awareness'),
-        ('RELATIONSHIP SKILLS', 'Relationship Skills')
+        ('Self Management', 'Self Management'),
+        ('Self Awareness', 'Self Awareness'),
+        ('Responsible Decision Making', 'Responsible Decision Making'),
+        ('Social Awareness', 'Social Awareness'),
+        ('Relationship Skills', 'Relationship Skills')
     )
     compitency = models.CharField(max_length=64, choices=PILLAR, default="SELF MANAGEMENT")
     theme = models.CharField(max_length=64,blank=True)
@@ -27,12 +34,15 @@ class Session(models.Model):
     index = models.TextField(blank=True)
     introduction = models.TextField(blank=True)
     moral = models.TextField(blank=True)
+    num_pages = models.IntegerField(default=0)
 
     def __str__(self):
         return (self.name)
 
 class Media_Content(models.Model):
+    id = models.IntegerField(blank=False,unique=True,primary_key=True)
     session = models.ForeignKey(Session, on_delete=models.CASCADE)
+    id_for_session = models.IntegerField(default=0)
     serial_number = models.IntegerField(default=0)
     media_content = models.ImageField(upload_to='content',blank=True)
     text_content = models.TextField(blank=True)
@@ -41,7 +51,10 @@ class Media_Content(models.Model):
         return (self.session.name + " - " + str(self.serial_number))
 
 class Questions_Mapping(models.Model):
+    id = models.IntegerField(blank=False,unique=True,primary_key=True)
+    id_for_session = models.IntegerField(default=0)
     session = models.ForeignKey(Session, on_delete=models.CASCADE)
+    serial_number = models.IntegerField(default=0)
     question = models.CharField(max_length=128, default="", blank = False)
     option_A = models.CharField(max_length=128, default="", blank = False)
     option_B = models.CharField(max_length=128, default="", blank = False)
@@ -60,7 +73,7 @@ class Questions_Mapping(models.Model):
 
 
 class Feedback(models.Model):
-    session = models.ForeignKey(Session, on_delete=models.CASCADE)
+    session = models.ForeignKey(Session, on_delete=models.CASCADE, to_field='id')
     rating = models.IntegerField(default=0)
     feedback = models.TextField()
 

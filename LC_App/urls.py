@@ -5,6 +5,8 @@ from main_app import views
 from rest_framework import routers
 from django.conf import settings
 
+from main_app.views import TestView
+
 router = routers.DefaultRouter()
 router.register(r'user', views.UserViewSet)
 router.register(r'badge', views.BadgeViewSet)
@@ -12,6 +14,7 @@ router.register(r'session', views.SessionViewSet)
 router.register(r'question_mapping', views.QuestionMappingViewSet)
 router.register(r'feedback', views.FeedbackViewSet)
 router.register(r'media_content', views.MediaContentViewSet)
+# router.register(r'test',views.TestView)
 
 urlpatterns = [
     path('',include(router.urls)),
@@ -20,6 +23,7 @@ urlpatterns = [
     path('api-token-refresh/', refresh_jwt_token),
     path('api-token-verify/', verify_jwt_token),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+    path('test/',TestView.as_view()),
 ]
 
 if settings.DEBUG:

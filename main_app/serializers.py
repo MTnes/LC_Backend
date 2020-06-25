@@ -1,7 +1,8 @@
 from rest_framework import serializers
 from django.contrib.auth.models import User
-from main_app.models import Media_Content,Badge, Session, Questions_Mapping, Feedback
+from main_app.models import Media_Content, Badge, Session, Questions_Mapping, Feedback, TestClass
 
+from rest_framework import serializers
 
 class Base64ImageField(serializers.ImageField):
 
@@ -35,6 +36,16 @@ class Base64ImageField(serializers.ImageField):
 
         return extension
 
+class TestSerializer(serializers.ModelSerializer):
+    # name = serializers.CharField(max_length=64)
+    doc = serializers.FileField(max_length=None, use_url=True)
+    #
+    # def create(self, validated_data):
+    #     return TestClass.objects.create()
+    class Meta:
+        model = TestClass
+        fields = ['doc']
+
 class UserSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = User
@@ -66,19 +77,20 @@ class SessionSerializer(serializers.HyperlinkedModelSerializer):
                   'name',
                   'index',
                   'introduction',
-                  'moral']
+                  'moral',
+                  'num_pages']
 
 class MediaContentSerializer(serializers.HyperlinkedModelSerializer):
     media_content = Base64ImageField(max_length=None, use_url=True)
-    
+
     class Meta:
         model = Media_Content
-        fields = ['session','serial_number','media_content','text_content']
+        fields = ['session','serial_number','media_content','text_content', 'id_for_session']
 
 class QuestionMappingSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Questions_Mapping
-        fields = ['session','question','option_A','option_B','option_C','option_D','correct_answer']
+        fields = ['session','serial_number','id_for_session','question','option_A','option_B','option_C','option_D','correct_answer']
 
 class FeedbackSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
