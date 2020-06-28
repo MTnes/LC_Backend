@@ -78,10 +78,11 @@ class SessionSerializer(serializers.HyperlinkedModelSerializer):
                   'index',
                   'introduction',
                   'moral',
-                  'num_pages']
+                  'num_pages',
+                  'date_uploaded']
 
 class MediaContentSerializer(serializers.HyperlinkedModelSerializer):
-    media_content = Base64ImageField(max_length=None, use_url=True)
+    media_content = Base64ImageField(max_length=None, use_url=True, required=False)
 
     class Meta:
         model = Media_Content

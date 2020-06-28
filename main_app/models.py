@@ -1,5 +1,5 @@
 from django.db import models
-
+import datetime
 # Create your models here.
 
 class TestClass(models.Model):
@@ -35,6 +35,7 @@ class Session(models.Model):
     introduction = models.TextField(blank=True)
     moral = models.TextField(blank=True)
     num_pages = models.IntegerField(default=0)
+    date_uploaded = models.DateField(default=datetime.date.today())
 
     def __str__(self):
         return (self.name)
@@ -44,7 +45,7 @@ class Media_Content(models.Model):
     session = models.ForeignKey(Session, on_delete=models.CASCADE)
     id_for_session = models.IntegerField(default=0)
     serial_number = models.IntegerField(default=0)
-    media_content = models.ImageField(upload_to='content',blank=True)
+    media_content = models.ImageField(upload_to='content',blank=True, null=True, default="content/anonymous.jpg")
     text_content = models.TextField(blank=True)
 
     def __str__(self):
